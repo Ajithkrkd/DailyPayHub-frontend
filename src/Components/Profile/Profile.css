@@ -1,0 +1,293 @@
+.parent-div{
+  padding:22px;
+}
+.left-div{
+    box-shadow: 0 0 9px rgba(0, 0, 0, 0.1);
+    padding-bottom: 178px;
+}
+
+.profile-img{
+    width: 150px;
+    height: 150px;
+    border-radius: 75%;
+    margin-left: 4rem;
+    margin-top: 2rem;
+}
+.name_text,.verified-text{
+    margin-left: 2rem;
+
+}
+.member_date ,.connetion-icons ,.followers {
+    margin-top: 12px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    font-weight: 600;
+    align-items: baseline;
+    list-style: none;
+}
+.edit-button{
+    margin-left:2rem;
+    width: 250px;
+    margin-bottom: 19px;
+    height: 48px;
+}
+.sell-button{
+    width: 141px;
+    align-content: center;
+    height: 48px;
+    background-color: black;
+}
+
+.sell-button:hover{
+  color: black;
+  background-color: #fff;
+}
+
+.havent-listed-text{
+    font-size: 18px;
+    line-height: 24px;
+    color: var(--blackText);
+    font-weight: 700;
+    margin: 0 0 8px;
+}
+.havent-listed-sub-text{
+    font-size: 16px;
+    line-height: 24px;
+    width: 60%;
+    color: var(--primaryLight1);
+    margin: 0 0 24px;
+    text-align: center;
+
+}
+.edit-button:hover{
+    background-color: white;
+    color: #002f34;
+    border: 2px solid #002f34;
+  }
+
+
+
+
+
+  /* edit-profile */
+
+  .edit-right-div{
+    border: 1px solid #002f34;
+  }
+  .edit-profile-text{
+    margin-left: 2rem;
+    font-weight: 700;
+  }
+
+  .edit-profile-pic-text{
+    margin-left: 2rem;
+    font-weight: 400;
+  }
+  
+
+  .edit-right-side-firstRow{
+    border: 1px solid #002f34;
+  }
+
+  .input1{
+    
+    color: var(--blackText);
+    display: block;
+    font-size: 16px;
+    height: 48px;
+    box-sizing: border-box;
+    border:1px solid;
+    outline: none;
+    padding-left: 12px;
+    padding-right: 12px;
+    width: 100%;
+    border-radius: 8px;
+    height: 60px;
+  }
+  
+  .input2{
+    border:1px solid;
+    color: var(--blackText);
+    display: block;
+    font-size: 16px;
+    height: 48px;
+    box-sizing: border-box;
+    outline: none;
+    padding-left: 12px;
+    padding-right: 12px;
+    width: 100%;
+    border-radius: 8px;
+    height: 100px;
+  }
+  
+
+  .why-its-importent-div{
+    padding-right: 12px;
+    margin-right: 12px;
+    padding-top: 12px;
+  }
+
+  .edit-right-side-SecondRow{
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+  }
+
+ 
+  .why-its-importent-text{
+    font-weight: 700;
+  }
+  .why-its-importent-div ul li{
+    list-style: none;
+    padding-right: 10px;
+}
+
+
+
+
+/* third row */
+
+.right-side-third-row input {
+  height: 48px;
+  margin-bottom: 34px;
+  border-radius: 8px;
+  border:1px solid;
+  padding: 12px;
+}
+.right-side-third-row p{
+  margin-bottom: 44px;
+}
+
+.unlink-button{
+  background-color: white;
+  border: 2px solid #002f34;
+  height: 40px;
+  font-size: 17px;
+  width: 300px;
+}
+
+.unlink-button:hover,.sell-button:hover{
+  background-color:  #002f34;
+  color: #fff;
+  border: 2px solid;
+}
+
+.right-side-div-forth-row ul {
+list-style: none;
+}
+
+.saveChanged-button{
+  background-color:  #002f34;
+  color: #fff;
+  border: 2px solid;
+  height: 40px;
+  font-size: 17px;
+  width: 200px;
+  float: right;
+}
+.saveChanged-button:hover{
+  background-color:  #fff;
+  color: #002f34;
+  border: 2px solid;
+  
+}
+.discard-text{
+text-decoration: underline ;
+}
+
+
+
+/* 
+
+
+
+*/
+
+
+*{
+  margin: 0;
+  padding : 0;
+  box-sizing: border-box;
+  font-family: cursive;
+
+}
+
+.main-div{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+
+
+}
+
+.inputBox {
+  position: relative;
+  width: 350px;
+
+}
+.second-div-right-side{
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+.inputBox input{
+  width: 100%;
+  padding: 16px;
+  font-size: 17px;
+  border: 1px solid rgb(222, 222, 222);
+  border-radius: 7px;        
+}
+.inputBox span{
+  position: absolute;
+  left: 0;
+  padding: 10px;
+  pointer-events: none;
+  font-size: 1em;
+  transition: 0.5s;
+
+}
+
+.inputBox input:valid ~span,
+.inputBox input:focus ~span
+
+{
+  background-color: #fff;
+  transform: translateX(16px) translateY(-20px);
+  letter-spacing: 0.2em;  
+  padding: 3px;
+  color:  #0f8adc;
+  
+}
+
+.login-title{
+  text-align: center;
+  font-weight: 800;
+  margin-bottom: 80px;
+}
+
+.login-btn{
+  transition: 0.3s;
+}
+
+.login-btn:hover{
+  background-color: #68b2e3;
+  color: black;
+  cursor: pointer;
+}
+.login-frame{
+  border: 1px solid black;
+  padding: 30px;
+  border-radius: 23px;
+  box-shadow: 0 ,6px , 8px;
+}
+.dont-have-account{
+  
+  text-align: center;
+}
+#showPassword{
+text-align: end;
+margin-right: 20px;
+cursor: pointer;
+}

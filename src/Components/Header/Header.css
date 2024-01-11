@@ -1,0 +1,98 @@
+.header{
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    padding: 7px;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+    background-color: #fff;
+    /* background-color: red; */
+}
+.keep-img{
+    height: 40px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.searchBar{
+    background-color: #F1F3F4;
+    padding:10px;
+    border-radius: 10px;
+    min-width: 650px;
+    z-index: 2;
+    
+}
+.searchBar:focus-within{
+    background-color: #fff;
+    border-radius: 10px;
+    
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
+}
+.searchIcon{
+    font-size: 22px;
+}
+.searchBar input{
+    border: none;
+    font-size: 16px;
+    background-color: #F1F3F4;
+    
+}
+
+.searchBar input:focus {
+    outline: none;
+    background-color: #fff;
+    color: #111;
+    width: 70%;
+  }
+
+.searchIcon{
+    padding-right:20px;
+    align-content: center;
+    opacity: 0.5;
+    padding-top: 3px;
+    cursor: pointer;
+}
+.closeIcon{
+    float: right;
+    font-size: 30px;
+    opacity: 0.5;
+    cursor: pointer;
+}
+.keep-text{
+    margin-right: 90px;
+    margin-top: 10px;
+    font-weight: 500;
+    opacity: .7;
+}
+.btnx{
+    margin-right: 20px;
+    margin-left: 20px;
+}
+
+.profile{
+    height: 40px;
+    background-color: red;
+    border-radius: 30px;
+    float: right;
+}
+.last-section{
+    margin-left: 80px;
+    width: 200px;
+    justify-content: space-around;
+}
+.last-section i {
+    font-size: 24px;
+    cursor: pointer;
+    opacity: .8;
+}
+
+.dropdown-content {
+    position: absolute;  /* or 'fixed' if you want it fixed on the viewport */
+    top: 46px;  /* Adjust this value based on your layout */
+    right: 107px; /* Adjust this value based on your layout */
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 10px;
+    width:200px;
+    z-index: 1; /* Make sure the dropdown appears above other elements */
+  }
+  
