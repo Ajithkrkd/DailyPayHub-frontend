@@ -146,6 +146,7 @@ function SignUp() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+  
     if (Object.values(errors).some((error) => error !== "")) {
       console.log(errors, "hafsdji");
 
@@ -156,14 +157,17 @@ function SignUp() {
       console.log(" hai");
       return;
     }
-
+    
     try {
+      
       const response = await axios.post(
         "http://localhost:9000/api/auth/register",
         formData
       );
-      if (response.status === 200) {
+      if (response) {
+        console.log(response)
         console.log("Registration successful");
+        sentMailForVerification(e);
         navigate("/login");
       } else {
         console.error("Registration failed");
@@ -174,6 +178,23 @@ function SignUp() {
     }
   };
 
+
+  
+  const sentMailForVerification = async (e) =>{
+    e.preventDefault();
+    
+    try {
+      console.log(formData.email)
+      const userEmail = formData.email;
+
+      localStorage.setItem("email",userEmail)
+      const response = await axios.post(`http://localhost:9000/api/auth/verify-email/${userEmail}`)
+      console.log(response)
+    } catch (error) {
+      console.log(error)
+    }
+  
+  }
   return (
     <div className="mainDiv row d-flex">
       <link

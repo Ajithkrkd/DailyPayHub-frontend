@@ -26,7 +26,11 @@ function Header() {
 
 
   useEffect(()=>{
-    fetchUserDetails(setUserData,setProfilePic)
+    if(false)
+    {
+      fetchUserDetails(setUserData,setProfilePic)
+    }
+      
   },[])
 
   const handleLogout = () =>{
