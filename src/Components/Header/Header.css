@@ -74,15 +74,12 @@
     border-radius: 30px;
     float: right;
 }
-.last-section{
-    margin-left: 80px;
-    width: 200px;
-    justify-content: space-around;
-}
+
 .last-section i {
     font-size: 24px;
     cursor: pointer;
     opacity: .8;
+    float: right;
 }
 
 .dropdown-content {

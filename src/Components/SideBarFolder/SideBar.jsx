@@ -31,12 +31,12 @@ function SideBar() {
             <>
               <li>
                 <a onClick={()=>{navigate('/')}}>
-                  <i className="bx bx-bulb btnx"></i>
+                  <i className="bx bx-note btnx"></i>
                   <span class="link_name">
-                    Notes
+                    projects
                   </span>
                 </a>
-                <span class="tooltip">Notes</span>
+                <span class="tooltip">projects</span>
               </li>
               <li>
                 <a>

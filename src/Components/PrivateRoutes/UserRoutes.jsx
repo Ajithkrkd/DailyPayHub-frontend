@@ -1,34 +1,29 @@
-import React ,{useEffect, useState} from 'react';
-import {Outlet, Navigate} from 'react-router-dom';
-import { jwtDecode } from "jwt-decode";
-import { useNavigate } from 'react-router-dom';
-const UserRoutes = ({}) => {
-    const navigate = useNavigate(); 
-    const [role , setRole] = useState(null)
-    useEffect(()=>{
-        fetchUserAuthority();
-    },[])
-   
-    const fetchUserAuthority = async ()=>{
-        const token = localStorage.getItem('accessToken')
-        if(token === null){
-            navigate('/')
+import React, { useEffect, useState } from 'react';
+import { Outlet, Navigate } from 'react-router-dom';
+import {jwtDecode} from 'jwt-decode';
+
+const UserRoutes = () => {
+    const [role, setRole] = useState(null);
+
+    useEffect(() => {
+        const token = localStorage.getItem('accessToken');
+        if (token) {
+            const decoded = jwtDecode(token);
+            const userRole = decoded.roles[0];
+            setRole(userRole);
         }
-        const stringToken = JSON.stringify(token)
-        console.log(token)
-        const decoded = jwtDecode(stringToken);
-        setRole(decoded.roles[0])
-        console.log(role)
+    }, []);
+
+    // If the role is still not determined, you might want to show a loading indicator or handle it accordingly
+    if (role === null) {
+        return <p>Loading...</p>;
     }
 
     return (
-      <>
-      {
-        role === "USER" ? <Outlet /> : <Navigate to="/login" />
-      }
-      </>
+        <>
+            {role === 'USER' ? <Outlet /> : <Navigate to="/login" />}
+        </>
     );
-  
 };
 
 export default UserRoutes;

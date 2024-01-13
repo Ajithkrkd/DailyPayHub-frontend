@@ -7,102 +7,95 @@ import { useLocation, useNavigate } from "react-router-dom";
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [verified , setVerified] = useState(false)
+  const [notVerified, setNotVerified] = useState(false);
   const navigate = useNavigate();
-
-
-  
 
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
-  const token = searchParams.get('token');
-  console.log(token ,'token')
+  const token = searchParams.get("token");
+  console.log(token, "token");
 
-  useEffect(()=>{
+  useEffect(() => {
+    if(token){
       handleEmailVerification();
-  },[token])
-
-
-
+    }
+  }, []);
 
   const signIn = async (e) => {
     e.preventDefault();
-  
+
     if (email.trim() === "" || !/\S+@\S+\.\S+/.test(email)) {
       toast.error("Email is not in the correct format");
       return;
     }
-  
+
     if (password.trim() === "" || password.length < 8) {
       toast.error("Please enter a correct password (at least 8 characters)");
       return;
     }
-  
+
     try {
       const response = await axios.post(
-        `http://localhost:9000/api/auth/authenticate/${verified}`,
+        `http://localhost:9000/api/auth/authenticate`,
         {
           email,
           password,
         }
       );
       const { access_token, refresh_token } = response.data;
-      console.log("heerkjadjflokasdjasdfpasfpoasfdjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj")
-      console.log("access        -----------",access_token)
-      console.log("refresh        -----------",refresh_token )
+      console.log(
+        "heerkjadjflokasdjasdfpasfpoasfdjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj"
+      );
+      console.log("access        -----------", access_token);
+      console.log("refresh        -----------", refresh_token);
       localStorage.setItem("accessToken", access_token);
       localStorage.setItem("refreshToken", refresh_token);
-      navigate('/')
-      console.log(response.data.message)
+      navigate("/")
+      console.log(response , 'here success message');
     } catch (error) {
-      console.log("hai iam ajith")
+      console.log("hai iam ajith");
       console.log(error.response);
-      toast.error(error.response.data.message)
+      toast.error(error.response.data.message);
+      if(error.response.data.status == 401)
+      setNotVerified(true)
     }
   };
 
-
-  const handleEmailVerification = async () =>{
-        
+  const handleEmailVerification = async () => {
     const email = localStorage.getItem("email");
 
     try {
-      console.log(email,"-------from here")
-      const response = await axios.post(`http://localhost:9000/api/auth/confirm-email/${token}/${email}`);
-      console.log(response)
-      if(response.data.status === 200){
-        console.log('here success')
-        setVerified(true)
+      console.log(email, "-------from here");
+      const response = await axios.post(
+        `http://localhost:9000/api/auth/confirm-email/${token}/${email}`
+      );
+      console.log(response);
+      if (response.data.status === 200) {
+        console.log("here success");
+        setNotVerified(false);
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  
-  }
-console.log(verified , 'verification')
+  };
+  console.log(notVerified, "verification");
   return (
     <div className="mainDiv row d-flex">
       <link
         href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
         rel="stylesheet"
       ></link>
-    
-     <form className="col-6 login-form ">
+
+      <form className="col-6 login-form ">
         <h4 className="">Login</h4>
         <div>
-         
-         {verified
-          && 
-         <>
-          <label className="btn btn-outline-success">Your Email is verified  Please Login</label>
-         </> }
-        {
-          !verified &&
-          <>
-          <label className="btn btn-outline-danger">Your Email is Not verified  check Your Mail</label>
-          </>
-          
-        }
+          {notVerified && (
+            <>
+              <label className="btn btn-outline-danger">
+                Your Email is not verified check mail
+              </label>
+            </>
+          )}
         </div>
         <div className="form-group my-2">
           <input
@@ -130,8 +123,7 @@ console.log(verified , 'verification')
           Login
         </button>
       </form>
-     </div>
-    
+    </div>
   );
 }
 

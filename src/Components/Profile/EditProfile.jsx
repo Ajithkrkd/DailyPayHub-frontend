@@ -13,7 +13,7 @@ function EditProfile() {
   const navigate = useNavigate();
   const [showPassword1, setPassword1] = useState(false);
   const [showPassword2, setPassword2] = useState(false);
-  const [selectedFile, setSelectedFile] = useState(null);
+  const [selectedFile, setSelectedFile] = useState();
   const [profilePic, setProfilePic] = useState(null)
   const [inputChanged , setInputChanged] = useState(false)
   const [errors, setErrors] = useState({});
@@ -64,7 +64,7 @@ function EditProfile() {
 
   const imageUrl = selectedFile
   ? URL.createObjectURL(selectedFile)
-  : profilePic;
+  : "/src/assets/workers.jpg";
   const handleFileChange = (e) => {
   setSelectedFile(e.target.files[0]);
 };

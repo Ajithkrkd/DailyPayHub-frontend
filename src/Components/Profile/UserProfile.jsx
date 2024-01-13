@@ -29,7 +29,7 @@ function UserProfile() {
         <div className="col-md-3 left-div">
           <img
             className="p-2 profile-img"
-           src={userData.profileImagePath && `http://localhost:9000${userData.profileImagePath}`}
+           src={userData.profileImagePath ? `http://localhost:9000${userData.profileImagePath} ` : "/src/assets/workers.jpg"}
           />
           <h4 className="name_text">{userData.firstName}</h4>
           <ul className="member_date">
@@ -62,7 +62,7 @@ function UserProfile() {
         {/* profile right side  */}
 
         <div className="col d-flex flex-column align-items-center justify-content-center align-text-center">
-          <img src="/src/assets/brain.png.avif" style={{ width: 300 }}></img>
+          {/* <img src="/src/assets/brain.png.avif" style={{ width: 300 }}></img>
           <h4 className="havent-listed-text">
             You haven't Start your Community Chat !!
           </h4>
@@ -71,7 +71,7 @@ function UserProfile() {
           </h5>
           <button className="btn btn-dark  sell-button ">
             Start Chat <FontAwesomeIcon icon={faTelegram} />
-          </button>
+          </button> */}
         </div>
       </div>
     </div>
