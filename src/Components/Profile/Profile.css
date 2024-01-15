@@ -1,6 +1,7 @@
 .parent-div{
   padding:22px;
 }
+
 .left-div{
     box-shadow: 0 0 9px rgba(0, 0, 0, 0.1);
     padding-bottom: 178px;
@@ -12,6 +13,7 @@
     border-radius: 75%;
     margin-left: 4rem;
     margin-top: 2rem;
+    
 }
 .name_text,.verified-text{
     margin-left: 2rem;

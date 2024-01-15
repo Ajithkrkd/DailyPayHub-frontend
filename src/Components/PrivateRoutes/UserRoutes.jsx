@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Outlet, Navigate } from 'react-router-dom';
+import { Outlet, Navigate, useNavigate } from 'react-router-dom';
 import {jwtDecode} from 'jwt-decode';
 
 const UserRoutes = () => {
+    const navigate = useNavigate();
     const [role, setRole] = useState(null);
 
     useEffect(() => {
@@ -16,12 +17,13 @@ const UserRoutes = () => {
 
     // If the role is still not determined, you might want to show a loading indicator or handle it accordingly
     if (role === null) {
-        return <p>Loading...</p>;
+        navigate('/register')
+        return;
     }
-
+    
     return (
         <>
-            {role === 'USER' ? <Outlet /> : <Navigate to="/login" />}
+            {role === 'WORKER' ? <Outlet /> : <Navigate to="/login" />}
         </>
     );
 };

@@ -58,7 +58,7 @@ function Header() {
             className="keep-img"
             rel="keep logo"
           />
-          <h5 className="keep-text">DailyPayHub</h5>
+          <h5 className="keep-text" onClick={()=>{navigate('/')}}>DailyPayHub</h5>
         </div>
         <div className="d-flex align-items-center   ">
           <i className="bx bx-cog mx-2"></i>
@@ -71,7 +71,7 @@ function Header() {
             alt="profile"
           />
           :
-          <button className="btn btn-outline-dark " onClick={()=>{navigate('/login')}}>Login as a professional</button>
+          <button className="btn btn-outline-dark " onClick={()=>{navigate('/register')}}>Join as a professional</button>
           }
         </div>
       </div>

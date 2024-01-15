@@ -2,7 +2,7 @@ import React from 'react'
 import '../Home/Home.css'
 function Home() {
   return (
-    <div className='pt-5'>
+    <div className='pt-5 homePage'>
         
             <div className='row pt-5'>
                 <div className='col'>
@@ -18,7 +18,7 @@ function Home() {
                     </div>
                     <div className='row'>
                         <img className='imageTwo' src="/src/assets/homeCleaning.jpg"/>
-                        <img className='imageTwo' src="/src/assets/gardening.jpg"/>
+                        <img className='imageTwo' src="/src/assets/tailor.jpg"/>
 
                     </div>
                 </div>

@@ -8,7 +8,7 @@ import toast from "react-hot-toast";
 import customAxios from "/src/store/AxiosConfig.js";
 import { handleInputValidation } from "./Validation";
 import { validateForm } from "./Validation";
-import { fetchUserDetails } from "./userUtils";
+import { fetchUserDetails ,WORKER_ADD_PROFILEPIC,WORKER_UPDATE_URL} from "./userUtils";
 function EditProfile() {
   const navigate = useNavigate();
   const [showPassword1, setPassword1] = useState(false);
@@ -49,7 +49,7 @@ function EditProfile() {
       delete updatedUserFormData.confirmPassword;
       try {
         const response = await customAxios.post(
-          "/user/update-user",
+          WORKER_UPDATE_URL,
           updatedUserFormData
         );
         console.log(response);
@@ -80,7 +80,7 @@ function EditProfile() {
         },
       };
       const response = await customAxios.post(
-        "/user/addProfilePic",
+        WORKER_ADD_PROFILEPIC,
         formData,
         config
       );

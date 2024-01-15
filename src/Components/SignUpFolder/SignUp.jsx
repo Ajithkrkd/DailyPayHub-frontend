@@ -3,6 +3,7 @@ import "../SignUpFolder/SignUp.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import { handleInputValidation, validateForm } from "../Profile/Validation";
 
 function SignUp() {
   //state ->  formdata for registration
@@ -25,134 +26,15 @@ function SignUp() {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
-    
     //for setting the error
-    setErrors({ ...errors, [name]: "" });
-    if (name === "firstName") {
-      if (!value.trim()) {
-        setErrors((prevErrors) => ({
-          ...prevErrors,
-          [name]: "First name cannot be empty",
-        }));
-      } else if (value.length < 7 || value.length > 15) {
-        setErrors((prevErrors) => ({
-          ...prevErrors,
-          [name]: "First name must be between 7 and 15 characters",
-        }));
-      }
-    }
-    if (name === "lastName") {
-      if (!value.trim()) {
-        setErrors((prevErrors) => ({
-          ...prevErrors,
-          [name]: "Last name cannot be empty",
-        }));
-      } else if (value.length < 2 || value.length > 15) {
-        setErrors((prevErrors) => ({
-          ...prevErrors,
-          [name]: "Last name must be between 2 and 15 characters",
-        }));
-      }
-    } else if (name === "email") {
-      if (!value.trim()) {
-        setErrors((prevErrors) => ({
-          ...prevErrors,
-          [name]: "Email cannot be empty",
-        }));
-      } else if (!/\S+@\S+\.\S+/.test(value)) {
-        setErrors((prevErrors) => ({
-          ...prevErrors,
-          [name]: "Enter a valid email address (example@gmail.com)",
-        }));
-      }
-    }
-      if (name === "phoneNumber") {
-        if (!/^\d+$/.test(value)) {
-          setErrors((prevErrors) => ({
-            ...prevErrors,
-            [name]: "Phone Number must only contain numbers",
-          }));
-        } else if (value.length !== 10) {
-          setErrors((prevErrors) => ({
-            ...prevErrors,
-            [name]: "Phone Number must be 10 digits",
-          }));
-        }
-      
-    } else if (name === "password") {
-      if (!value.trim()) {
-        setErrors((prevErrors) => ({
-          ...prevErrors,
-          [name]: " password cannot be empty",
-        }));
-      } else if (value.length < 8 || value.length > 15) {
-        setErrors((prevErrors) => ({
-          ...prevErrors,
-          [name]: "password must be between 8 and 15 characters",
-        }));
-      }
-    }
-    if (name === "confirmPassword") {
-      if (value === formData.password) {
-        setErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
-      } else if (value != formData.confirmPassword) {
-        console.log(formData.password, formData.confirmPassword);
-        setErrors((prevErrors) => ({
-          ...prevErrors,
-          [name]: "Passwords do not match",
-        }));
-      }
-    }
-
+    handleInputValidation(name, value, formData, errors, setErrors)
   };
-  let isValid = true;
-  const validateForm = () => {
-    isValid = true;
-
-    if (formData.firstName.trim() === "") {
-      if (formData.lastName.length < 8 || formData.lastName.length > 15)
-        isValid = false;
-    }
-
-    if (formData.lastName.trim() === "") {
-      if (formData.lastName.length < 2 || formData.lastName.length > 8)
-        isValid = false;
-    }
-    if (formData.phoneNumber.trim() === "") {
-      isValid = false;
-    } else if (!/^\d+$/.test(formData.phoneNumber)) {
-      isValid = false;
-    } else if (formData.phoneNumber.length !== 10) {
-      isValid = false;
-    }
-    if (formData.email.trim() === "") {
-      if (!/\S+@\S+\.\S+/.test(formData.email)) isValid = false;
-    }
-
-    if (formData.password.trim() === "") {
-      if (
-        formData.confirmPassword.length < 8 ||
-        formData.confirmPassword.length > 15
-      )
-        isValid = false;
-    }
-
-    if (formData.confirmPassword.trim() === "") {
-      if (formData.password !== formData.confirmPassword) isValid = false;
-    }
-    console.log(isValid);
-    return isValid;
-  };
-
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
-    if (Object.values(errors).some((error) => error !== "")) {
-      console.log(errors, "hafsdji");
-
-      return;
-    }
-    if (!validateForm()) {
+    const isFormValid = validateForm({ formData ,errors});
+    
+    if (!isFormValid) {
       toast.error("form data is not completed");
       console.log(" hai");
       return;

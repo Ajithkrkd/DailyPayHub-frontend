@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTelegram } from "@fortawesome/free-brands-svg-icons";
 import "../Profile/Profile.css";
 import { fetchUserDetails } from "./userUtils";
-
+import CompanyRegistration from "../Company/CompanyRegistration";
 function UserProfile() {
   const [profilePic, setProfilePic] = useState(null);
   const [userData, setUserData] = useState({
@@ -21,12 +21,28 @@ function UserProfile() {
     fetchUserDetails(setUserData, setProfilePic);
     console.log(userData, "from uyserlkjafhsdasd");
   }, []);
+  
+  //date formating for user friendly
+  const dateString = userData.joinDate;
+  const date = new Date(dateString);
+  console.log(date)
+  const day = date.getDate();
+  const month = date.toLocaleString('default', { month: 'short' });
+  const year = date.getFullYear();
+  const reformattedDate = day + " " + month + " " + year;
+  //date formating for user friendly
+
+
+  const [renderForm , setRenderForm] = useState(false);
+  const renderCompanyRegistrationForm = () =>{
+    setRenderForm(true);
+  }
 
   const navigate = useNavigate();
   return (
     <div className="pt-5">
       <div className="row">
-        <div className="col-md-3 left-div">
+        <div className="col-lg-3 col-sm-12 d-flex flex-column align-items-center justify-content-center align-text-center">
           <img
             className="p-2 profile-img"
            src={userData.profileImagePath ? `http://localhost:9000${userData.profileImagePath} ` : "/src/assets/workers.jpg"}
@@ -35,9 +51,9 @@ function UserProfile() {
           <ul className="member_date">
             <li className="fas fa-calendar-alt"></li>
             <li>Member since</li>
-            <li>May 2022</li>
+            <li>{reformattedDate}</li>
           </ul>
-          <ul className="followers">
+          {/* <ul className="followers">
             <li className="fas fa-users"></li>
             <li>
               <span>3 </span> followers <span>|</span>
@@ -46,7 +62,7 @@ function UserProfile() {
               <span>0 </span> following
             </li>
           </ul>
-          <p className="verified-text">user verified with</p>
+          <p className="verified-text">user verified with</p> */}
           <ul className="connetion-icons">
             {/* <li ><FontAwesomeIcon icon={faGoogle}/></li> */}
             <li className="fa fa-envelope"></li>
@@ -58,21 +74,37 @@ function UserProfile() {
             <span className="fas fa-edit"></span>Edit Profile
           </button>
         </div>
-
-        {/* profile right side  */}
-
         <div className="col d-flex flex-column align-items-center justify-content-center align-text-center">
-          {/* <img src="/src/assets/brain.png.avif" style={{ width: 300 }}></img>
+        {
+          renderForm ? <>
+          
+          <CompanyRegistration/>
+          </>
+          :
+          <>
+          
+        
+          <img src="/src/assets/startJob.jpg" className="w-50 pt-3"></img>
           <h4 className="havent-listed-text">
-            You haven't Start your Community Chat !!
+            You haven't Start your First job !!
           </h4>
           <h5 className="havent-listed-sub-text">
             Let go of what you don't use anymore
           </h5>
-          <button className="btn btn-dark  sell-button ">
-            Start Chat <FontAwesomeIcon icon={faTelegram} />
-          </button> */}
+          <button className="
+              btn btn-dark  
+              sell-button w-50"
+              onClick={renderCompanyRegistrationForm}
+              >
+
+              Register Your company
+               <FontAwesomeIcon icon={faTelegram} />
+          </button>
+          </>
+        }
         </div>
+
+        
       </div>
     </div>
   );
