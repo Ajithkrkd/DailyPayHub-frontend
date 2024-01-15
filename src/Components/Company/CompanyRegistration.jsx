@@ -1,92 +1,106 @@
 import React, { useState } from 'react'
 import "../Profile/Profile.css"
+import { COMPANY_REGISTER_URL } from './companyUtils';
+import customAxios from '/src/store/AxiosConfig.js'
+import { handleErrorValidation } from './validation';
+import toast from 'react-hot-toast';
 function CompanyRegistration() {
- 
+ const [errors , setErrors] = useState({})
   const [formData , setFormData] = useState({
     companyName:'',
     companyEmail:'',
     companyNumber:'',
     companyOwnerName:''
   })
+//for hadling the input change start------------------------>
+  const handleChange =(e)=>{
+    const {name , value} = e.target;
+    setFormData({...formData , [name]:value});
+    handleErrorValidation(name , value , errors , setErrors);
+    console.log(errors)
+    console.log(formData)
+  }
+//for hadling the input change end------------------------>
 
-const handleChange =(e)=>{
-
-  const {name , value} = e.target;
-  setFormData({...formData , [name]:value});
-  console.log(formData)
-
-}
-const handleSubmit = async (e) =>{
-  e.preventDefault();
-  const response = customAxios.post("")
-}
+//For handling the fom submition start________________
+  const handleSubmit = async (e) =>{
+    e.preventDefault();
+    console.log('first')
+    try {
+      const response = await customAxios.post(`/worker/${2}/company/register` , formData)
+      console.log(response)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+//For handling the fom submition end________________
 
   return (
     <>
         <form className=" w-100 p-5 ">
         <h4 className="form-header mb-2 ">Company Registration</h4>
 
-        <div class="form-group">
+        <div className="form-group">
           <input
             type="companyName"
-            className={`form-control`}
+            className={`form-control my-2 ${errors.companyName ? "is-invalid" : ""}`}
             placeholder="Company Name"
             name="companyName"
             value={formData.companyName}
             onChange={handleChange}
           />
         </div>
-        {/* {errors.firstName && (
+        {errors.companyName && (
           <div className="" style={{ color: "red" }}>
-            {errors.firstName}
+            {errors.companyName}
           </div>
-        )} */}
-        <div class="form-group">
+        )}
+        <div className="form-group">
           <input
             type="companyOwnerName"
-            className={`form-control my-2`}
+            className={`form-control my-2 ${errors.companyOwnerName ?"is-invalid" : ""}`}
             name="companyOwnerName"
             value={formData.companyOwnerName}
             onChange={handleChange}
             placeholder="Company Owner"
           />
         </div>
-        {/* {errors.email && (
+        {errors.companyOwnerName && (
           <div className="" style={{ color: "red" }}>
-            {errors.email}
+            {errors.companyOwnerName}
           </div>
-        )} */}
+        )}
 
-        <div class="form-group">
+        <div className="form-group">
           <input
             type="email"
-            className={`form-control my-2 `}
+            className={`form-control my-2 ${errors.companyEmail ?"is-invalid":""}`}
             placeholder="Company Email"
             name="companyEmail"
             value={formData.companyEmail}
             onChange={handleChange}
           />
         </div>
-        {/* {errors.lastName && (
+        {errors.companyEmail && (
           <div className="" style={{ color: "red" }}>
-            {errors.lastName}
+            {errors.companyEmail}
           </div>
-        )} */}
-        <div class="form-group">
+        )}
+        <div className="form-group mb-4">
           <input
-            type="companyNumber"
-            className={`form-control my-2`}
+            type="number"
+            className={`form-control my-2 ${errors.companyNumber ? "is-invalid":""}`}
             placeholder="Company Number "
             name="companyNumber"
             value={formData.companyNumber}
             onChange={handleChange}
           />
         </div>
-        {/* {errors.phoneNumber && (
+        {errors.companyNumber && (
           <div className="" style={{ color: "red" }}>
-            {errors.phoneNumber}
+            {errors.companyNumber}
           </div>
-        )} */}
+        )}
 
         
       
