@@ -1,11 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTelegram } from "@fortawesome/free-brands-svg-icons";
 import "../Profile/Profile.css";
 import { fetchUserDetails } from "./userUtils";
 import CompanyRegistration from "../Company/CompanyRegistration";
+import AddVerificationDocs from "../Company/AddVerificationDocs";
+import customAxios from '/src/store/AxiosConfig.js'
+import { COMPANY_EMAIL_CONFIRM_URL } from "../Company/companyUtils";
+import toast from "react-hot-toast";
 function UserProfile() {
+
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const token = searchParams.get("token");
+  console.log(token, "token");
+
   const [profilePic, setProfilePic] = useState(null);
   const [userData, setUserData] = useState({
     firstName: "",
@@ -19,9 +29,39 @@ function UserProfile() {
 
   useEffect(() => {
     fetchUserDetails(setUserData, setProfilePic);
-    console.log(userData, "from uyserlkjafhsdasd");
+    console.log("h---------------------------------here")
+    if(token){
+      setVerificationDoc(true);
+      verifyCompanyEmail()
+    }
   }, []);
   
+  //confirm email start-------------->
+  
+  const verifyCompanyEmail = async()=>{
+    try {
+      const response = await customAxios.post(`${COMPANY_EMAIL_CONFIRM_URL}/${token}`)
+      console.log(response)
+      
+    } catch (error) {
+      console.log(error)
+      if(error.response.data.message == "Verification Failed")
+      {
+        toast.error("verification failed becuase you clicked wrong mail")
+      }
+    
+    }
+  }
+  
+  
+  
+  
+  
+  //confirm email end-------------->
+
+
+
+
   //date formating for user friendly
   const dateString = userData.joinDate;
   const date = new Date(dateString);
@@ -34,9 +74,12 @@ function UserProfile() {
 
 
   const [renderForm , setRenderForm] = useState(false);
+  const [verificationDoc , setVerificationDoc] = useState(false);
+
   const renderCompanyRegistrationForm = () =>{
     setRenderForm(true);
   }
+ 
 
   const navigate = useNavigate();
   return (
@@ -76,10 +119,15 @@ function UserProfile() {
         </div>
         <div className="col d-flex flex-column align-items-center justify-content-center align-text-center">
         {
-          renderForm ? <>
-          
-          <CompanyRegistration/>
-          </>
+          renderForm ? 
+          (<>
+          <CompanyRegistration props={{setVerificationDoc ,setRenderForm}} />
+          </>)
+          : 
+          verificationDoc ?
+          (<>
+            <AddVerificationDocs/>
+          </>) 
           :
           <>
           

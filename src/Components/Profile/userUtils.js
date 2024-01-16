@@ -15,6 +15,8 @@ export const fetchUserDetails = async (setFormData, setProfilePic) => {
     try {
       const response = await customAxios.get(WORKER_DETAILS_URL);
       console.log(response);
+      localStorage.setItem("userData",JSON.stringify(response.data))
+       console.log(response.data, "from uyserlkjafhsdasd");
       setFormData({
         firstName: response.data.firstName,
         lastName: response.data.lastName,
@@ -26,6 +28,7 @@ export const fetchUserDetails = async (setFormData, setProfilePic) => {
         confirmPassword: "",
       });
       setProfilePic(response.data.imageUrl);
+     
     } catch (error) {
       console.log(error);
     }

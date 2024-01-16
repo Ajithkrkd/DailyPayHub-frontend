@@ -1,10 +1,13 @@
 import React, { useState } from 'react'
 import "../Profile/Profile.css"
-import { COMPANY_REGISTER_URL } from './companyUtils';
+import {COMPANY_EMAIL_VERIFICATION_URL, COMPANY_REGISTER_URL } from './companyUtils';
 import customAxios from '/src/store/AxiosConfig.js'
-import { handleErrorValidation } from './validation';
+import { handleErrorValidation, validateForm } from './validation';
 import toast from 'react-hot-toast';
-function CompanyRegistration() {
+function CompanyRegistration({props}) {
+  const {setVerificationDoc,setRenderForm} = props;
+
+
  const [errors , setErrors] = useState({})
   const [formData , setFormData] = useState({
     companyName:'',
@@ -25,15 +28,47 @@ function CompanyRegistration() {
 //For handling the fom submition start________________
   const handleSubmit = async (e) =>{
     e.preventDefault();
+   const isValidForm = validateForm(formData);
+   if(!isValidForm){
+    toast.error('Please fill the form data correctly')
+    return;
+   }
     console.log('first')
+    const userDataString = localStorage.getItem("userData")
+    const userData = JSON.parse(userDataString);
+    console.log(userData.userId, 'from here');
     try {
-      const response = await customAxios.post(`/worker/${2}/company/register` , formData)
+      const response = await customAxios.post(`${COMPANY_REGISTER_URL}/${userData.userId}`, formData)
       console.log(response)
+      sentVerificationEmail()
+      console.log("-----------start")
+    // for rendering the document uploading form 
+      console.log("-----------end")
+      setVerificationDoc(true)
+      setRenderForm(false);
     } catch (error) {
       console.log(error)
+      toast.error(error.response.data.message)
+      
+
+
+      
     }
   }
 //For handling the fom submition end________________
+ 
+  const sentVerificationEmail = async()=>{
+    try {
+      const response = await customAxios.post(`${COMPANY_EMAIL_VERIFICATION_URL}/${formData.companyEmail}`)
+      console.log(response);
+      
+    } catch (error) {
+      console.log(error)
+    }
+
+  }
+
+
 
   return (
     <>

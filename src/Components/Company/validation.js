@@ -65,3 +65,34 @@ export const handleErrorValidation =(name , value, errors , setErrors)=>{
         }
     }
 }
+
+
+let isValid = true;
+
+export const validateForm = (formData) => {
+ 
+
+  console.log(formData, 'here');
+
+  if (formData.companyName.trim() === "" || formData.companyName.length < 7 || formData.companyName.length > 25) {
+    isValid = false;
+  } else {
+    // Reset isValid to true when the condition is not met
+    isValid = true;
+  }
+
+  if (formData.companyOwnerName.trim() === "" || formData.companyOwnerName.length < 2 || formData.companyOwnerName.length > 15) {
+    isValid = false;
+  }
+
+  if (formData.companyNumber.trim() === "" || !/^\d+$/.test(formData.companyNumber) || formData.companyNumber.length !== 10) {
+    isValid = false;
+  }
+
+  if (formData.companyEmail.trim() === "" || !/\S+@\S+\.\S+/.test(formData.companyEmail)) {
+    isValid = false;
+  }
+
+  console.log(isValid + "from isValid");
+  return isValid;
+};
