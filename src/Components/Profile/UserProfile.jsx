@@ -7,14 +7,43 @@ import { fetchUserDetails } from "./userUtils";
 import CompanyRegistration from "../Company/CompanyRegistration";
 import AddVerificationDocs from "../Company/AddVerificationDocs";
 import customAxios from '/src/store/AxiosConfig.js'
-import { COMPANY_EMAIL_CONFIRM_URL } from "../Company/companyUtils";
+import { COMPANY_DETAILS_URL, COMPANY_EMAIL_CONFIRM_URL } from "../Company/companyUtils";
 import toast from "react-hot-toast";
 function UserProfile() {
+
 
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const token = searchParams.get("token");
   console.log(token, "token");
+
+
+  useEffect(()=>{
+    getCompanyDetails();
+  },[])
+
+const getCompanyDetails = async ()=>{
+  try {
+    const storedData = localStorage.getItem("userData");
+    const  userData = JSON.parse(storedData);
+    const {userId} = userData;
+    console.log(userId , 'user uuuuuuuuuuuuuuuuuuud')
+    const workerId = "2";
+    const response = await customAxios.get(`${COMPANY_DETAILS_URL}details/${workerId}` ,
+    {
+        headers: {
+          "Content-Type": "application/json", // Correcting the header name
+        },
+      }
+    );
+    console.log(response ,"here is the response you can check");
+    localStorage.setItem("companyDetails" ,JSON.stringify(response.data));
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+
 
   const [profilePic, setProfilePic] = useState(null);
   const [userData, setUserData] = useState({

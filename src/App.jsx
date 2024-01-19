@@ -6,7 +6,9 @@ import SignUpPage from "./Pages/SignUpPage";
 import EditProfilePage from "./Pages/EditProfilePage";
 import UserProfilePage from "./Pages/UserProfilePage";
 import UserRoutes from "./Components/PrivateRoutes/UserRoutes";
-
+import AdminRoutes from './Components/PrivateRoutes/AdminRoutes'
+import AdminLoginPage from "./Pages/Admin/AdminLoginPage";
+import AdminHomePage from "./Pages/Admin/AdminHomePage";
 function App() {
   return (
    
@@ -16,6 +18,10 @@ function App() {
         <Route element={<UserRoutes/>}>
           <Route path="/editProfile" Component={EditProfilePage}/>
           <Route path="/userProfile" Component={UserProfilePage}/>
+        </Route>
+        <Route element={<AdminRoutes/>}>
+          <Route path="/admin/login" Component={AdminLoginPage}/>
+          <Route path="/admin" Component={AdminHomePage}/>
         </Route>
        <Route path="/login"Component={LoginPage}/>
         <Route path="/" Component={HomePage}/>

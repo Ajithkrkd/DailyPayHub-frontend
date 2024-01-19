@@ -1,19 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { COMPANY_DOCUMENT_UPLOAD_URL } from "./companyUtils";
+import { COMPANY_BASE_URL, COMPANY_DETAILS_URL, COMPANY_DOCUMENT_UPLOAD_URL } from "./companyUtils";
 import customAxios from "/src/store/AxiosConfig.js";
 function AddVerificationDocs() {
   const [selectedValue , setSelectedValue] = useState('NULL');
   const [totalDocumentArray , setTotalDocumentArray] = useState([]);
 
-
-
-
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    const updatedArray = totalDocumentArray.filter(item => item.documentType !== selectedValue);
-    setTotalDocumentArray([...updatedArray, { file, documentType: selectedValue }]);
-  };
+  
   
   const handleAdharFrontChange = (e) => {
     const file = e.target.files[0];
@@ -37,7 +30,10 @@ function AddVerificationDocs() {
     })
    
     try {
-      const response = await customAxios.post(`${COMPANY_DOCUMENT_UPLOAD_URL}/${20}`,formData)
+      const companyStoredData = localStorage.getItem("companyDetails")
+      const companyData = JSON.parse(companyStoredData);
+      
+      const response = await customAxios.post(`${COMPANY_DOCUMENT_UPLOAD_URL}/${22}`,formData)
       
       console.log(response)
     } catch (error) {
