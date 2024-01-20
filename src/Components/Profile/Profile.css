@@ -7,11 +7,21 @@
     padding-bottom: 178px;
 }
 
-.profile-img{
+.companyLogoUpload{
     width: 150px;
     height: 150px;
     border-radius: 75%;
-    margin-left: 4rem;
+    margin-left: 1rem;
+    margin-top: 2rem;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+}
+.profile-img{
+    width: 250px;
+    height: 250px;
+    border-radius: 75%;
+    margin-left: 1rem;
     margin-top: 2rem;
     
 }
@@ -29,11 +39,12 @@
     list-style: none;
 }
 .edit-button{
-    margin-left:2rem;
-    width: 250px;
+    margin-left:1rem;
+    width: 100%;
     margin-bottom: 19px;
     height: 48px;
 }
+
 .sell-button{
     width: 141px;
     align-content: center;

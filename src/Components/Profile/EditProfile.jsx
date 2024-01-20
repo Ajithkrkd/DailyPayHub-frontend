@@ -113,7 +113,7 @@ function EditProfile() {
             update picture
           </p>
           <button
-            className="edit-button btn btn-dark"
+            className="edit-button btn btn-dark "
             onClick={() => {
               navigate("/userProfile");
             }}

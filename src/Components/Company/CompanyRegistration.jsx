@@ -1,11 +1,40 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import "../Profile/Profile.css"
-import {COMPANY_EMAIL_VERIFICATION_URL, COMPANY_REGISTER_URL } from './companyUtils';
+import {COMPANY_BASE_URL, COMPANY_DETAILS_URL, COMPANY_EMAIL_VERIFICATION_URL, COMPANY_REGISTER_URL } from './companyUtils';
 import customAxios from '/src/store/AxiosConfig.js'
 import { handleErrorValidation, validateForm } from './validation';
 import toast from 'react-hot-toast';
+import 'bootstrap/dist/css/bootstrap.min.css'
 function CompanyRegistration({props}) {
-  const {setVerificationDoc,setRenderForm} = props;
+  const {setRenderForm} = props;
+  const {setAddressForm} = props;
+  const [selectedLogo ,setSelectedLogo] = useState('');
+  const [userDetails , setUserDetails] = useState(null);
+  const [companyData , setCompanyData] = useState(null);
+  const [companyLogo ,setCompanyLogo] = useState();
+  const [emailVerified , setEmailNotVerified] = useState(false);
+  
+  useEffect(()=>{
+    const storedData = localStorage.getItem("userData");
+    const userData = JSON.parse(storedData);
+    setUserDetails(userData);
+    const storedCompanyData = localStorage.getItem("companyDetails");
+    const companyData = JSON.parse(storedCompanyData);
+    setCompanyData(companyData);
+    if(companyData){
+      setFormData(companyData)
+      console.log(companyData.companyEmail)
+      if(!companyData.companyEmailVerified)
+      {
+        setEmailNotVerified(true);
+      }else{
+        setEmailNotVerified(false);
+        setAddressForm(false);
+      }
+      
+      setCompanyLogo(companyData.companyLogoUrl);
+    }
+  },[])
 
 
  const [errors , setErrors] = useState({})
@@ -13,7 +42,8 @@ function CompanyRegistration({props}) {
     companyName:'',
     companyEmail:'',
     companyNumber:'',
-    companyOwnerName:''
+    companyOwnerName:'',
+    companyEmailVerified:''
   })
 //for hadling the input change start------------------------>
   const handleChange =(e)=>{
@@ -44,7 +74,7 @@ function CompanyRegistration({props}) {
       console.log("-----------start")
     // for rendering the document uploading form 
       console.log("-----------end")
-      setVerificationDoc(true)
+      setAddressForm(true)
       setRenderForm(false);
     } catch (error) {
       console.log(error)
@@ -70,11 +100,63 @@ function CompanyRegistration({props}) {
 
 
 
+
+const handleLogoFileChange = (e)=>{
+  setSelectedLogo(e.target.files[0])
+}
+const imageUrl = selectedLogo
+? URL.createObjectURL(selectedLogo)
+: "/src/assets/tailor.jpg";
+
+
+const handleUploadLogo = async (e)=>{
+  e.preventDefault()
+  try {
+    const imageData = new FormData();
+    imageData.append("file" ,selectedLogo);
+    const response = await customAxios.post(`${COMPANY_BASE_URL}/uploadCompanyLogo/${userDetails.userId}` , imageData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+    console.log(response);
+    toast.success(response.data.message)
+    
+  } catch (error) {
+    console.log(error)
+  }
+}
+
   return (
     <>
-        <form className=" w-100 p-5 ">
+        <form className=" w-100 p-5  ">
         <h4 className="form-header mb-2 ">Company Registration</h4>
+        <div>
+          {emailVerified && (
+            <>
+              <label className="btn btn-outline-danger">
+                Your Email is not verified check mail
+              </label>
+            </>
+          )}
+        </div>
+        <div className='row d-flex align-items-center'>
+        <img  src={companyLogo ? `http://localhost:9000${companyLogo}` : imageUrl} className=" col-2 p-2 companyLogoUpload"/>
+       <div className='col'>
+       <input
+                type="file" 
+                accept="image/*" 
+                className="  my-4 form-control" 
+                onChange={handleLogoFileChange}
+                />
+          <button className='btn btn-dark edit-button p-0 m-0' 
+          onClick={handleUploadLogo}
+          >
+          {"Upload Image"}
+            </button>
 
+       </div>
+        </div>
         <div className="form-group">
           <input
             type="companyName"

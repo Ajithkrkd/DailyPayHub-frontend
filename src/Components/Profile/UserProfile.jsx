@@ -9,27 +9,43 @@ import AddVerificationDocs from "../Company/AddVerificationDocs";
 import customAxios from '/src/store/AxiosConfig.js'
 import { COMPANY_DETAILS_URL, COMPANY_EMAIL_CONFIRM_URL } from "../Company/companyUtils";
 import toast from "react-hot-toast";
+import AddCompanyAddress from "../Company/AddCompanyAddress";
 function UserProfile() {
 
+  const [userDetails , setUserDetails] = useState()
+  const [companyDetails , setCompanyDetails] = useState({
+    companyName :'',
+    companyOwnerName:'',
+    companyLogoUrl:'',
+    companyId:'',
+    companyEmailVerified:'',
+    companyEmail:''
+  })
 
+  const [emailVerified , setEmailNotVerified] = useState(false);
+  const [AddressForm , setAddressForm] = useState(false);
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const token = searchParams.get("token");
   console.log(token, "token");
-
+  
 
   useEffect(()=>{
     getCompanyDetails();
+    fetchUserDetails(setUserData, setProfilePic);
+    console.log("h---------------------------------userProfile useEffect")
+    if(token){
+      setVerificationDoc(true);
+      verifyCompanyEmail()
+    }
   },[])
 
 const getCompanyDetails = async ()=>{
   try {
     const storedData = localStorage.getItem("userData");
-    const  userData = JSON.parse(storedData);
-    const {userId} = userData;
-    console.log(userId , 'user uuuuuuuuuuuuuuuuuuud')
-    const workerId = "2";
-    const response = await customAxios.get(`${COMPANY_DETAILS_URL}details/${workerId}` ,
+    const userData = JSON.parse(storedData);
+    setUserDetails(userData);
+    const response = await customAxios.get(`${COMPANY_DETAILS_URL}details/${userData.userId}` ,
     {
         headers: {
           "Content-Type": "application/json", // Correcting the header name
@@ -38,6 +54,7 @@ const getCompanyDetails = async ()=>{
     );
     console.log(response ,"here is the response you can check");
     localStorage.setItem("companyDetails" ,JSON.stringify(response.data));
+    setCompanyDetails(response.data);
   } catch (error) {
     console.log(error)
   }
@@ -56,14 +73,6 @@ const getCompanyDetails = async ()=>{
     password: "",
   });
 
-  useEffect(() => {
-    fetchUserDetails(setUserData, setProfilePic);
-    console.log("h---------------------------------here")
-    if(token){
-      setVerificationDoc(true);
-      verifyCompanyEmail()
-    }
-  }, []);
   
   //confirm email start-------------->
   
@@ -94,7 +103,6 @@ const getCompanyDetails = async ()=>{
   //date formating for user friendly
   const dateString = userData.joinDate;
   const date = new Date(dateString);
-  console.log(date)
   const day = date.getDate();
   const month = date.toLocaleString('default', { month: 'short' });
   const year = date.getFullYear();
@@ -106,6 +114,12 @@ const getCompanyDetails = async ()=>{
   const [verificationDoc , setVerificationDoc] = useState(false);
 
   const renderCompanyRegistrationForm = () =>{
+    const {companyEmailVerified} =companyDetails;
+    console.log(companyEmailVerified , 'from ---------------    renderCompanyRegistrationForm')
+    if(!companyEmailVerified){
+      setEmailNotVerified(true);
+      toast.error('email is not verified')
+    }
     setRenderForm(true);
   }
  
@@ -141,24 +155,42 @@ const getCompanyDetails = async ()=>{
           </ul>
           <button
             onClick={() => navigate("/editProfile")}
-            className="btn btn-dark  edit-button"
+            className="btn btn-dark  edit-button w-100"
           >
             <span className="fas fa-edit"></span>Edit Profile
+          </button>
+          <button
+            onClick={() => navigate("/editProfile")}
+            className="btn btn-dark  edit-button w-100"
+          >
+            <span className="fas fa-edit"></span>Company Management
           </button>
         </div>
         <div className="col d-flex flex-column align-items-center justify-content-center align-text-center">
         {
           renderForm ? 
-          (<>
-          <CompanyRegistration props={{setVerificationDoc ,setRenderForm}} />
-          </>)
+          (
+          <>
+          <CompanyRegistration props={{setAddressForm,setRenderForm}} />
+          </>
+          )
           : 
+          emailVerified ?
+          (
+          <>
+            <AddCompanyAddress />
+          </>
+          ) 
+          :
           verificationDoc ?
-          (<>
-            <AddVerificationDocs/>
-          </>) 
+          (
+          <>
+            <AddVerificationDocs />
+          </>
+          ) 
           :
           <>
+          
           
         
           <img src="/src/assets/startJob.jpg" className="w-50 pt-3"></img>

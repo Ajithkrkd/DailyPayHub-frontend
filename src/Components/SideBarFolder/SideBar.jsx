@@ -1,12 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../SideBarFolder/SideBarScript";
 import "../SideBarFolder/SideBar.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useNavigate } from "react-router-dom";
 function SideBar() {
-
-  
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [userData , setUsreData] = useState(null);
+  useEffect(()=>{
+    const storedUserDetails = localStorage.getItem("userData");
+    const UserDetails = JSON.parse(storedUserDetails);
+    setUsreData(UserDetails)
+  },[])
+  
 
   const toggleSideBar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -27,7 +32,7 @@ function SideBar() {
         onMouseLeave={() => setIsSidebarOpen(false)}
       >
         <ul class="nav-list">
-          {accessToken ? (
+          {userData ? (
             <>
               <li>
                 <a onClick={()=>{navigate('/')}}>
