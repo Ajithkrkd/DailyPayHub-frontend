@@ -24,7 +24,7 @@ function CompanyRegistration({props}) {
     if(companyData){
       setFormData(companyData)
       console.log(companyData.companyEmail)
-      if(!companyData.companyEmailVerified)
+      if(!companyData.companyEmailVerified && companyData.companyEmail)
       {
         setEmailNotVerified(true);
       }else{

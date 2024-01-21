@@ -35,7 +35,7 @@ function UserProfile() {
     fetchUserDetails(setUserData, setProfilePic);
     console.log("h---------------------------------userProfile useEffect")
     if(token){
-      setVerificationDoc(true);
+      setAddressForm(true);
       verifyCompanyEmail()
     }
   },[])
@@ -116,10 +116,6 @@ const getCompanyDetails = async ()=>{
   const renderCompanyRegistrationForm = () =>{
     const {companyEmailVerified} =companyDetails;
     console.log(companyEmailVerified , 'from ---------------    renderCompanyRegistrationForm')
-    if(!companyEmailVerified){
-      setEmailNotVerified(true);
-      toast.error('email is not verified')
-    }
     setRenderForm(true);
   }
  
@@ -175,7 +171,7 @@ const getCompanyDetails = async ()=>{
           </>
           )
           : 
-          emailVerified ?
+          AddressForm ?
           (
           <>
             <AddCompanyAddress />
@@ -193,16 +189,26 @@ const getCompanyDetails = async ()=>{
           
           
         
-          <img src="/src/assets/startJob.jpg" className="w-50 pt-3"></img>
-          <h4 className="havent-listed-text">
-            You haven't Start your First job !!
-          </h4>
-          <h5 className="havent-listed-sub-text">
-            Let go of what you don't use anymore
-          </h5>
+         {!companyDetails 
+         ? 
+              <>
+              <img src="/src/assets/startJob.jpg" className="w-50 pt-3"></img>
+                <h4 className="havent-listed-text">
+                  You haven't Start your First job !!
+                </h4>
+                <h5 className="havent-listed-sub-text">
+                  Let go of what you don't use anymore
+                </h5>
+              </>
+           : 
+              <>
+              <h4 className="p-3 ">Your Registration not Completed</h4>
+              <i className='bx bxs-lock lock' ></i>
+              </>
+           }
           <button className="
               btn btn-dark  
-              sell-button w-50"
+              edit-button w-50"
               onClick={renderCompanyRegistrationForm}
               >
 

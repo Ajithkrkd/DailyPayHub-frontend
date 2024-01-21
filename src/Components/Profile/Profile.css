@@ -304,3 +304,11 @@ text-align: end;
 margin-right: 20px;
 cursor: pointer;
 }
+
+.lock{
+  font-size: 100px;
+ }
+ .lock:hover{
+  font-size: 100px;
+  color: rgb(86, 6, 6);
+ }

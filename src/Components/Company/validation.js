@@ -96,3 +96,90 @@ export const validateForm = (formData) => {
   console.log(isValid + "from isValid");
   return isValid;
 };
+
+
+export const  handleErrorValidationForAddress = (name , value , errors , setErrors)=>{
+  setErrors({ ...errors, [name]: "" });
+  if(name === "city")
+    {
+        if(!value.trim())
+        {
+            setErrors((...prevErrors)=>({
+                ...prevErrors,
+                [name]:"city name must not be empty"
+            }))
+        }
+    }
+   else if(name === "district")
+    {
+        if(!value.trim())
+        {
+            setErrors((...prevErrors)=>({
+                ...prevErrors,
+                [name]:"district name must not be empty"
+            }))
+        }
+    }
+    else if(name === "state")
+    {
+        if(!value.trim())
+        {
+            setErrors((...prevErrors)=>({
+                ...prevErrors,
+                [name]:"state name must not be empty"
+            }))
+        }
+    }
+    else if(name === "country")
+    {
+        if(!value.trim())
+        {
+            setErrors((...prevErrors)=>({
+                ...prevErrors,
+                [name]:"country name must not be empty"
+            }))
+        }
+    }
+    else if(name === "postalCode")
+    {
+        if(!value.trim())
+        {
+            setErrors((...prevErrors)=>({
+                ...prevErrors,
+                [name]:"postal Code  must not be empty"
+            }))
+        }
+        else if (value.length !== 6) {
+          setErrors((prevErrors) => ({
+            ...prevErrors,
+            [name]: "postal code  must be 6 digits",
+          }));
+        }
+    }
+}
+
+let isAddressvalid = true;
+export const validateAddressForm = (formData)=>{
+
+  console.log(formData , 'from address validation')
+  if (formData.city.trim() === "") {
+    isAddressvalid = false;
+  }
+
+  if (formData.district.trim() === "") {
+    isAddressvalid = false;
+  }
+
+  if (formData.state.trim() === "") {
+    isAddressvalid = false;
+  }
+
+  if (formData.country.trim() === "") {
+    isAddressvalid = false;
+  }
+  if (formData.postalCode.trim() === "") {
+    isAddressvalid = false;
+  }
+return isAddressvalid;
+
+}
