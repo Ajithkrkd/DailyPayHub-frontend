@@ -158,8 +158,8 @@ export const  handleErrorValidationForAddress = (name , value , errors , setErro
     }
 }
 
-let isAddressvalid = true;
 export const validateAddressForm = (formData)=>{
+  let isAddressvalid = true;
 
   console.log(formData , 'from address validation')
   if (formData.city.trim() === "") {
@@ -177,9 +177,10 @@ export const validateAddressForm = (formData)=>{
   if (formData.country.trim() === "") {
     isAddressvalid = false;
   }
-  if (formData.postalCode.trim() === "") {
+  if (formData.postalCode.trim() === "" || formData.postalCode.length !== 6) {
     isAddressvalid = false;
   }
+  console.log(isAddressvalid);
 return isAddressvalid;
 
 }

@@ -2,10 +2,10 @@
 window.onload = function(){
     const sidebar = document.querySelector(".sidebar");
     const closeBtn = document.querySelector(".btnx");
-    closeBtn.addEventListener("click",function(){
-        sidebar.classList.toggle("open")
-        menuBtnChange()
-    })
+    // closeBtn.addEventListener("click",function(){
+    //     sidebar.classList.toggle("open")
+    //     menuBtnChange()
+    // })
 
    
 

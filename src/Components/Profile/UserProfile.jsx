@@ -7,7 +7,7 @@ import { fetchUserDetails } from "./userUtils";
 import CompanyRegistration from "../Company/CompanyRegistration";
 import AddVerificationDocs from "../Company/AddVerificationDocs";
 import customAxios from '/src/store/AxiosConfig.js'
-import { COMPANY_DETAILS_URL, COMPANY_EMAIL_CONFIRM_URL } from "../Company/companyUtils";
+import { COMPANY_DETAILS_URL, COMPANY_EMAIL_CONFIRM_URL, getCompanyDetails } from "../Company/companyUtils";
 import toast from "react-hot-toast";
 import AddCompanyAddress from "../Company/AddCompanyAddress";
 function UserProfile() {
@@ -21,7 +21,7 @@ function UserProfile() {
     companyEmailVerified:'',
     companyEmail:''
   })
-
+  const [one ,setOne] = useState(0);
   const [emailVerified , setEmailNotVerified] = useState(false);
   const [AddressForm , setAddressForm] = useState(false);
   const location = useLocation();
@@ -31,7 +31,7 @@ function UserProfile() {
   
 
   useEffect(()=>{
-    getCompanyDetails();
+    getCompanyDetails(setCompanyDetails,setUserDetails);
     fetchUserDetails(setUserData, setProfilePic);
     console.log("h---------------------------------userProfile useEffect")
     if(token){
@@ -40,25 +40,7 @@ function UserProfile() {
     }
   },[])
 
-const getCompanyDetails = async ()=>{
-  try {
-    const storedData = localStorage.getItem("userData");
-    const userData = JSON.parse(storedData);
-    setUserDetails(userData);
-    const response = await customAxios.get(`${COMPANY_DETAILS_URL}details/${userData.userId}` ,
-    {
-        headers: {
-          "Content-Type": "application/json", // Correcting the header name
-        },
-      }
-    );
-    console.log(response ,"here is the response you can check");
-    localStorage.setItem("companyDetails" ,JSON.stringify(response.data));
-    setCompanyDetails(response.data);
-  } catch (error) {
-    console.log(error)
-  }
-}
+
 
 
 
@@ -114,9 +96,15 @@ const getCompanyDetails = async ()=>{
   const [verificationDoc , setVerificationDoc] = useState(false);
 
   const renderCompanyRegistrationForm = () =>{
-    const {companyEmailVerified} =companyDetails;
-    console.log(companyEmailVerified , 'from ---------------    renderCompanyRegistrationForm')
-    setRenderForm(true);
+   
+    console.log(companyDetails.companyEmailVerified , 'from ---------------    renderCompanyRegistrationForm')
+    if(companyDetails.companyEmailVerified)
+    {
+      setAddressForm(true);
+    }
+    else{
+      setRenderForm(true)
+    }
   }
  
 
@@ -159,7 +147,7 @@ const getCompanyDetails = async ()=>{
             onClick={() => navigate("/editProfile")}
             className="btn btn-dark  edit-button w-100"
           >
-            <span className="fas fa-edit"></span>Company Management
+            <span className="fas fa-edit"></span>Company Management{one}
           </button>
         </div>
         <div className="col d-flex flex-column align-items-center justify-content-center align-text-center">
@@ -174,7 +162,7 @@ const getCompanyDetails = async ()=>{
           AddressForm ?
           (
           <>
-            <AddCompanyAddress />
+            <AddCompanyAddress props={{setVerificationDoc,setOne,setAddressForm}} />
           </>
           ) 
           :

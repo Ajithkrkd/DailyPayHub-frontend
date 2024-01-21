@@ -12,7 +12,7 @@ function CompanyRegistration({props}) {
   const [userDetails , setUserDetails] = useState(null);
   const [companyData , setCompanyData] = useState(null);
   const [companyLogo ,setCompanyLogo] = useState();
-  const [emailVerified , setEmailNotVerified] = useState(false);
+  const [emailNotVerified , setEmailNotVerified] = useState(false);
   
   useEffect(()=>{
     const storedData = localStorage.getItem("userData");
@@ -132,7 +132,7 @@ const handleUploadLogo = async (e)=>{
         <form className=" w-100 p-5  ">
         <h4 className="form-header mb-2 ">Company Registration</h4>
         <div>
-          {emailVerified && (
+          {emailNotVerified && (
             <>
               <label className="btn btn-outline-danger">
                 Your Email is not verified check mail

@@ -8,13 +8,11 @@ const geolocationOptions = {
 
 const handleGeolocationSuccess = async (position, callback) => {
   const coordinates = position.coords;
-
-  console.log(coordinates);
-  console.log("Your current position is:");
-  console.log(`Latitude: ${coordinates.latitude}`);
-  console.log(`Longitude: ${coordinates.longitude}`);
-  console.log(`Accuracy: More or less ${coordinates.accuracy} meters.`);
-  
+  // console.log(coordinates);
+  // console.log("Your current position is:");
+  // console.log(`Latitude: ${coordinates.latitude}`);
+  // console.log(`Longitude: ${coordinates.longitude}`);
+  // console.log(`Accuracy: More or less ${coordinates.accuracy} meters.`);
   try {
     await fetchLocationDetails(coordinates.latitude, coordinates.longitude, callback);
   } catch (error) {
@@ -28,7 +26,6 @@ const handleGeolocationError = (error) => {
 };
 
 export const getLocation = (callback) => {
-  console.log("get location---------------------------------first step")
   navigator.geolocation.getCurrentPosition(
     (position) => {
       handleGeolocationSuccess(position, callback);

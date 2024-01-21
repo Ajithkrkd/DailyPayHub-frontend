@@ -3,8 +3,14 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { getLocation } from "../Location/LocationComponet.js";
 import { handleErrorValidationForAddress, validateAddressForm, validateForm } from "./validation.js";
 import toast from "react-hot-toast";
-
-function AddCompanyAddress() {
+import customAxios from '../../store/AxiosConfig.js'
+import {COMPANY_BASE_URL, getCompanyDetails} from '../Company/companyUtils.js'
+function AddCompanyAddress({props}) {
+  const {setVerificationDoc} = props;
+  const {setOne} = props;
+  const {setAddressForm} = props;
+  const [userDetails , setUserDetails] = useState()
+  const [emailNotVerified , setEmailNotVerified] = useState(false);
   const [errors, setErrors] = useState({});
   const [address , setAddress] = useState({
     city: "",
@@ -20,12 +26,29 @@ function AddCompanyAddress() {
     country: "",
     postalCode: "",
   });
-
+  const [comapnyDetails , setCompanyDetails] = useState({
+    companyId :'',
+    companyName:'',
+    companyEmail:'',
+    companyNumber:'',
+    companyOwnerName:'',
+    companyEmailVerified:''
+  })
   useEffect(()=>{
     getLocation(setAddress);
+    getCompanyDetails(setCompanyDetails,setUserDetails);
+    const storedCompanyData = localStorage.getItem("companyDetails");
+    const companyData = JSON.parse(storedCompanyData);
+    setCompanyDetails(companyData);
   },[])
 
- 
+ const handleVerificationDocOpen =()=>{
+
+  console.log('here')
+  setVerificationDoc(true);
+  setOne(1);
+  setAddressForm(false);
+ }
   const AddLocationDetailsToFormData = (e)=>{
     e.preventDefault();
     const {name} = e.target;
@@ -37,19 +60,35 @@ function AddCompanyAddress() {
     const {name , value} = e.target;
     setFormData({...formData , [name]:value});
     handleErrorValidationForAddress(name , value , errors , setErrors);
+
   };
 
-  
+
   const handleAddressSubmition = async (e) => {
     e.preventDefault();
-    console.log(validateAddressForm(formData) , 'from handle address asfhj oasjdfoasjfosjafoijsodfjsoifdj')
-    const valid = validateAddressForm(formData);
+    console.log(formData)
+    let valid = validateAddressForm(formData);
+    if(!comapnyDetails.companyEmailVerified)
+    {
+      setEmailNotVerified(true);
+      return;
+    }
     if(!valid)
     {
       toast.error("check data its not valid")
       return;
     }else{
-      toast.success("success")
+     try {
+      const response = await customAxios.post(`${COMPANY_BASE_URL}/address/create/${comapnyDetails.companyId}`,
+     formData
+     )
+     console.log(response)
+     toast.success("company address added");
+     handleVerificationDocOpen();
+     } catch (error) {
+      console.log(error)
+     }
+
     }
   };
 
@@ -58,12 +97,21 @@ function AddCompanyAddress() {
     <>
       <form className=" w-100 p-5  ">
         <h4 className="form-header mb-2 ">Add Address</h4>
+        <div>
+          {emailNotVerified && (
+            <>
+              <label className="btn btn-outline-danger">
+                Your Email is not verified check mail
+              </label>
+            </>
+          )}
+        </div>
         <button
           className="btn"
           style={{ color: "blue" }}
           onClick={AddLocationDetailsToFormData}
         >
-          <i class="bx bx-current-location"></i>
+          <i className="bx bx-current-location"></i>
           Use my Location
         </button>
 
