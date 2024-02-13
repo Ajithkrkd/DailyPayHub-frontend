@@ -40,6 +40,14 @@ function AddCompanyAddress({props}) {
     const storedCompanyData = localStorage.getItem("companyDetails");
     const companyData = JSON.parse(storedCompanyData);
     setCompanyDetails(companyData);
+    if(comapnyDetails.companyAddressId && comapnyDetails.companyAddressId)
+    {
+      setVerificationDoc(true);
+      setAddressForm(false);
+    }
+    else{
+      setAddressForm(true);
+    }
   },[])
 
  const handleVerificationDocOpen =()=>{

@@ -1,14 +1,14 @@
 import React from "react";
-import LoginPage from "./Pages/loginPage";
-import HomePage from "./Pages/HomePage";
+import LoginPage from '../src/Pages/LoginPage.jsx';
+import HomePage from '../src/Pages/HomePage.jsx';
 import{BrowserRouter as Router,Route, Routes} from 'react-router-dom'
-import SignUpPage from "./Pages/SignUpPage";
-import EditProfilePage from "./Pages/EditProfilePage";
-import UserProfilePage from "./Pages/UserProfilePage";
-import UserRoutes from "./Components/PrivateRoutes/UserRoutes";
-import AdminRoutes from './Components/PrivateRoutes/AdminRoutes'
-import AdminLoginPage from "./Pages/Admin/AdminLoginPage";
-import AdminHomePage from "./Pages/Admin/AdminHomePage";
+import SignUpPage from "../src/Pages/SignUpPage.jsx";
+import EditProfilePage from "../src/Pages/EditProfilePage.jsx";
+import UserProfilePage from "../src/Pages/UserProfilePage.jsx";
+import UserRoutes from "./Components/PrivateRoutes/UserRoutes.jsx";
+import AdminRoutes from './Components/PrivateRoutes/AdminRoutes.jsx'
+import AdminLoginPage from "../src/Pages/Admin/AdminLoginPage.jsx";
+import AdminHomePage from "../src/Pages/Admin/AdminHomePage.jsx";
 function App() {
   return (
    

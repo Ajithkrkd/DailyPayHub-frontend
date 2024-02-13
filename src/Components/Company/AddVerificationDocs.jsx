@@ -6,7 +6,11 @@ function AddVerificationDocs() {
   const [selectedValue , setSelectedValue] = useState('NULL');
   const [totalDocumentArray , setTotalDocumentArray] = useState([]);
 
-  
+  const handleFileChange = (e)=>{
+    const file = e.target.files[0];
+    const updatedArray = totalDocumentArray.filter(item => item.documentType !== selectedValue);
+    setTotalDocumentArray([...updatedArray, { file, documentType:selectedValue }]);
+  }
   
   const handleAdharFrontChange = (e) => {
     const file = e.target.files[0];
@@ -33,7 +37,7 @@ function AddVerificationDocs() {
       const companyStoredData = localStorage.getItem("companyDetails")
       const companyData = JSON.parse(companyStoredData);
       
-      const response = await customAxios.post(`${COMPANY_DOCUMENT_UPLOAD_URL}/${22}`,formData)
+      const response = await customAxios.post(`${COMPANY_DOCUMENT_UPLOAD_URL}/${companyData.companyId}`,formData)
       
       console.log(response)
     } catch (error) {
@@ -44,7 +48,7 @@ function AddVerificationDocs() {
 
   const handleSelectChange = (e) => {
     setSelectedValue(e.target.value);
-    if (selectedValue == "") {
+    if (selectedValue == 'NULL') {
       toast.error("please select again");
     } else {
       toast.success("Document type updated");
